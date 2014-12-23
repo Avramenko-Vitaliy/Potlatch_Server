@@ -1,6 +1,6 @@
 package com.deadpeace.potlatch.client;
 
-import com.deadpeace.potlatch.auth.User;
+import com.deadpeace.potlatch.security.User;
 import com.deadpeace.potlatch.repository.Gift;
 import retrofit.client.Response;
 import retrofit.http.*;
@@ -23,6 +23,7 @@ public interface PotlatchSvcApi
     public static final String CREATOR_PARAM="creator";
     public static final String NAME_PARAM="name";
     public static final String USER_NAME_PARAM="username";
+    public static final String PASSWORD_PARAM="password";
     public static final String GIFT_ID_PARAM="gift_id";
     public static final String USER_ID_PARAM="user_id";
     public static final String USER_PREFER_PARAM="preference";
@@ -32,9 +33,10 @@ public interface PotlatchSvcApi
     public static final String GIFT_SVC_LIKE_OR_UNLIKE=GIFT_SVC_ID+"/like_or_unlike";
     public static final String GIFT_SVC_OBSCENE_OR_DECENT=GIFT_SVC_ID+"/obscene_or_decent";
     public static final String GIFT_SVC_UPLOAD=GIFT_SVC_PATH+"/upload";
-    public static final String USER_SVC_LOGIN="/login";
+    public static final String USER_SVC_LOGIN="/user";
+    public static final String SVC_LOGIN="/login";
+    public static final String SVC_LOGOUT="/logout";
     public static final String LOAD_IMAGE="/image/{"+NAME_PARAM+"}";
-    public static final String TOKEN_PATH = "/oauth/token";
     public static final String GIFT_TITLE_SEARCH_PATH = GIFT_SVC_PATH + "/search/findByTitle";
     public static final String GIFT_CREATOR_PATH="/user/{"+ID+"}"+GIFT_SVC_PATH;
     public static final String GIFT_NOT_CREATOR="/not_user/{"+ID+"}"+GIFT_SVC_PATH;
@@ -101,4 +103,11 @@ public interface PotlatchSvcApi
 
     @POST(USER_SVC_PREFERENCE)
     public User setPreference(@Path(ID)long id,@Query(USER_PREFER_PARAM)String preference);
+
+    @FormUrlEncoded
+    @POST(SVC_LOGIN)
+    public Void login(@Field(USER_NAME_PARAM) String username, @Field(PASSWORD_PARAM) String pass);
+
+    @GET(SVC_LOGOUT)
+    public Void logout();
 }

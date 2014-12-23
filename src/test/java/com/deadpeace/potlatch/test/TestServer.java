@@ -1,7 +1,6 @@
 package com.deadpeace.potlatch.test;
 
 import com.deadpeace.potlatch.client.PotlatchSvcApi;
-import com.deadpeace.potlatch.client.SecuredRestBuilder;
 import com.deadpeace.potlatch.repository.Gift;
 import org.junit.Test;
 import retrofit.RestAdapter;
@@ -26,15 +25,32 @@ import static org.junit.Assert.*;
  */
 public class TestServer
 {
-    private final String TEST_URL = "https://localhost:8443";
-    private PotlatchSvcApi potlachService=new SecuredRestBuilder()
-            .setLoginEndpoint(TEST_URL + PotlatchSvcApi.TOKEN_PATH)
-            .setUsername("admin")
-            .setPassword("pass")
-            .setClientId("mobile")
+    private final String TEST_URL = "http://localhost:8080";
+
+    private PotlatchSvcApi potlatchService=new RestAdapter.Builder()
             .setClient(new ApacheClient(UnsafeHttpsClient.createUnsafeClient()))
             .setEndpoint(TEST_URL).setLogLevel(RestAdapter.LogLevel.FULL).build()
             .create(PotlatchSvcApi.class);
+
+    @Test
+    public void testLogin()
+    {
+        try
+        {
+            potlatchService.login("admin", "pass");
+            potlatchService.logout();
+        }
+        catch(RetrofitError error)
+        {
+            fail("server returned error: "+error.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetUser()
+    {
+        assertNotNull(potlatchService.getUser());
+    }
 
     @Test
     public void testGiftAdd()throws IOException
@@ -42,7 +58,7 @@ public class TestServer
         Gift gift=new Gift();
         gift.setTitle("this is test gift");
         gift.setDescription("I'm develop servlet potlatch");
-        gift=potlachService.addGift(gift);
+        gift=potlatchService.addGift(gift);
         assertTrue(gift.getId()>0);
     }
 
@@ -52,8 +68,8 @@ public class TestServer
         Gift gift=new Gift();
         gift.setTitle("this is test gift");
         gift.setDescription("I'm develop servlet potlatch");
-        gift=potlachService.addGift(gift);
-        Collection<Gift> stored = potlachService.getGiftList();
+        gift=potlatchService.addGift(gift);
+        Collection<Gift> stored = potlatchService.getGiftList();
         assertTrue(stored.contains(gift));
     }
 
@@ -65,8 +81,8 @@ public class TestServer
             Gift gift=new Gift();
             gift.setTitle("this is test gift");
             gift.setDescription("I'm develop servlet potlatch");
-            potlachService.addGift(gift);
-            gift=potlachService.getGiftById(-1222);
+            potlatchService.addGift(gift);
+            gift=potlatchService.getGiftById(-1222);
         }
         catch(RetrofitError e)
         {
@@ -80,14 +96,14 @@ public class TestServer
         Gift gift=new Gift();
         gift.setTitle("this is test gift");
         gift.setDescription("I'm develop servlet potlatch");
-        gift=potlachService.addGift(gift);
-        assertTrue(potlachService.getGiftById(gift.getId())!=null);
+        gift=potlatchService.addGift(gift);
+        assertTrue(potlatchService.getGiftById(gift.getId())!=null);
     }
 
     @Test
     public void testUpload()
     {
-        assertEquals(potlachService.uploadFile(new TypedFile("image/jpg", new File("D:\\", "myphoto.jpg")),"gift1"), "Done!");
+        assertEquals(potlatchService.uploadFile(new TypedFile("image/jpg", new File("D:\\", "myphoto.jpg")),"gift1"), "Done!");
     }
 
     @Test
@@ -97,7 +113,7 @@ public class TestServer
         {
             File photo = new File("D:\\download.jpg");
             FileOutputStream output = new FileOutputStream(photo);
-            org.apache.commons.io.IOUtils.write(((TypedByteArray)potlachService.loadImage("admin").getBody()).getBytes(), output);
+            org.apache.commons.io.IOUtils.write(((TypedByteArray) potlatchService.loadImage("admin").getBody()).getBytes(), output);
         }
         catch(Exception e)
         {
@@ -108,42 +124,42 @@ public class TestServer
     @Test
     public void testGiftCreator()
     {
-        assertNotNull(potlachService.findByCreator(1));
+        assertNotNull(potlatchService.findByCreator(1));
     }
 
     @Test
     public void testSearchByTitle()
     {
-        assertTrue(potlachService.findByTitle("first").size()>0);
+        assertTrue(potlatchService.findByTitle("first").size()>0);
     }
 
     @Test
     public void testGettingGift()
     {
-        assertNotNull(potlachService.findByGetting(1));
+        assertNotNull(potlatchService.findByGetting(1));
     }
 
     @Test
     public void testDelGift()
     {
-        assertTrue(potlachService.delGift(2));
+        assertTrue(potlatchService.delGift(2));
     }
 
     @Test
     public void testDelRecipients()
     {
-        assertTrue(potlachService.delRecipients(2,3));
+        assertTrue(potlatchService.delRecipients(2, 3));
     }
 
     @Test
     public void testRecipients()
     {
-        assertNotNull(potlachService.sendRecipients(3,1));
+        assertNotNull(potlatchService.sendRecipients(3, 1));
     }
 
     @Test
     public void testPreference()
     {
-        potlachService.setPreference(1,"this is my preference");
+        potlatchService.setPreference(1, "this is my preference");
     }
 }

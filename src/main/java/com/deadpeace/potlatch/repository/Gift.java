@@ -1,6 +1,6 @@
 package com.deadpeace.potlatch.repository;
 
-import com.deadpeace.potlatch.auth.User;
+import com.deadpeace.potlatch.security.User;
 import com.google.common.base.Objects;
 
 import javax.persistence.*;

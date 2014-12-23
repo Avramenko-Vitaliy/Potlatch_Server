@@ -1,6 +1,6 @@
 package com.deadpeace.potlatch;
 
-import com.deadpeace.potlatch.auth.User;
+import com.deadpeace.potlatch.security.User;
 import com.deadpeace.potlatch.client.PotlatchSvcApi;
 import com.deadpeace.potlatch.repository.Gift;
 import com.deadpeace.potlatch.repository.GiftRepository;
@@ -58,9 +58,9 @@ public class PotlatchSvc
     }
 
     @RequestMapping(value = PotlatchSvcApi.GIFT_SVC_PATH,method = RequestMethod.GET)
-    public @ResponseBody List<Gift> getGiftList()
+    public @ResponseBody List<Gift> getGiftList(Principal principal)
     {
-        return Lists.newArrayList(gifts.findAll());
+        return Lists.newArrayList(gifts.findByCreatorOrderByDateDesc(users.findByUsername(principal.getName())));
     }
 
     @Transactional

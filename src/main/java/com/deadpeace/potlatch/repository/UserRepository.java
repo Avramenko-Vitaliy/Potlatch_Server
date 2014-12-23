@@ -1,13 +1,10 @@
 package com.deadpeace.potlatch.repository;
 
-import com.deadpeace.potlatch.auth.User;
+import com.deadpeace.potlatch.security.User;
 import com.deadpeace.potlatch.client.PotlatchSvcApi;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
