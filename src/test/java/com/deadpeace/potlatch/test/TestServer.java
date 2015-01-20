@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
  */
 public class TestServer
 {
-    private final String TEST_URL = "http://localhost:8080";
+    private final String TEST_URL = "https://localhost:8443";
 
     private PotlatchSvcApi potlatchService=new RestAdapter.Builder()
             .setClient(new ApacheClient(UnsafeHttpsClient.createUnsafeClient()))
