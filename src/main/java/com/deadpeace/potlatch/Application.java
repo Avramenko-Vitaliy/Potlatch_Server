@@ -66,7 +66,7 @@ public class Application
                         proto.setKeystoreFile(new File(keystoreFile).getAbsolutePath());
                         proto.setKeystorePass(keystorePass);
                         proto.setKeystoreType("JKS");
-                        proto.setKeyAlias("protected");
+                        proto.setKeyAlias("tomcat");
                     }
                 });
             }

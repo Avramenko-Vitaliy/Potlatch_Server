@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.savedrequest.NullRequestCache;
 
 import javax.servlet.ServletException;
@@ -52,7 +53,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         }).permitAll();
-        http.logout().logoutUrl(PotlatchSvcApi.SVC_LOGOUT).permitAll();
+        http.logout().logoutUrl(PotlatchSvcApi.SVC_LOGOUT).logoutSuccessHandler(new LogoutSuccessHandler()
+        {
+            @Override
+            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException
+            {
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+        }).permitAll();
         http.authorizeRequests().anyRequest().authenticated();
     }
 }

@@ -29,7 +29,8 @@ public class TestServer
 
     private PotlatchSvcApi potlatchService=new RestAdapter.Builder()
             .setClient(new ApacheClient(UnsafeHttpsClient.createUnsafeClient()))
-            .setEndpoint(TEST_URL).setLogLevel(RestAdapter.LogLevel.FULL).build()
+            .setEndpoint(TEST_URL)
+            .setLogLevel(RestAdapter.LogLevel.FULL).build()
             .create(PotlatchSvcApi.class);
 
     @Test
