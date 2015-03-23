@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         http.csrf().disable();
         http.requestCache().requestCache(new NullRequestCache());
+        http.formLogin().loginPage("/login").permitAll();
         http.formLogin().loginProcessingUrl(PotlatchSvcApi.SVC_LOGIN).successHandler(new AuthenticationSuccessHandler()
         {
             @Override
@@ -52,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
-        }).permitAll();
+        }).defaultSuccessUrl(PotlatchSvcApi.GIFT_SVC_PATH).permitAll();
         http.logout().logoutUrl(PotlatchSvcApi.SVC_LOGOUT).logoutSuccessHandler(new LogoutSuccessHandler()
         {
             @Override

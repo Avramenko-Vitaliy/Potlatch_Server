@@ -1,12 +1,14 @@
 package com.deadpeace.potlatch;
 
-import com.deadpeace.potlatch.security.User;
 import com.deadpeace.potlatch.client.PotlatchSvcApi;
 import com.deadpeace.potlatch.repository.Gift;
 import com.deadpeace.potlatch.repository.GiftRepository;
 import com.deadpeace.potlatch.repository.UserRepository;
+import com.deadpeace.potlatch.security.User;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,8 @@ import java.util.List;
 @Controller
 public class PotlatchSvc
 {
+    private static final Logger LOGGER=LoggerFactory.getLogger(PotlatchSvc.class);
+
     @Autowired
     private GiftRepository gifts;
 
@@ -40,7 +44,7 @@ public class PotlatchSvc
     private UserRepository users;
 
     @RequestMapping(value = PotlatchSvcApi.USER_SVC_LOGIN,method = RequestMethod.GET)
-    public @ResponseBody User getUser(Principal principal,HttpServletResponse response)throws UsernameNotFoundException
+    public @ResponseBody User getUser(Principal principal)throws UsernameNotFoundException
     {
         User user=users.findByUsername(principal.getName());
         if(null==user)

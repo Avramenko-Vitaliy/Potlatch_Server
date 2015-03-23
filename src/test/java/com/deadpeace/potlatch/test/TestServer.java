@@ -2,6 +2,8 @@ package com.deadpeace.potlatch.test;
 
 import com.deadpeace.potlatch.client.PotlatchSvcApi;
 import com.deadpeace.potlatch.repository.Gift;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -33,12 +35,26 @@ public class TestServer
             .setLogLevel(RestAdapter.LogLevel.FULL).build()
             .create(PotlatchSvcApi.class);
 
+    @Before
     @Test
     public void testLogin()
     {
         try
         {
             potlatchService.login("admin", "pass");
+        }
+        catch(RetrofitError error)
+        {
+            fail("server returned error: "+error.getMessage());
+        }
+    }
+
+    @After
+    @Test
+    public void testLogout()
+    {
+        try
+        {
             potlatchService.logout();
         }
         catch(RetrofitError error)

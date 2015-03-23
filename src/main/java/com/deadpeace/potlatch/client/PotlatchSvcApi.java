@@ -17,6 +17,8 @@ import java.util.List;
  */
 public interface PotlatchSvcApi
 {
+    public static final String RES_JSON=".json";
+
     public static final String ID="id";
     public static final String FILE="file";
     public static final String TITLE_PARAM="title";
@@ -47,61 +49,61 @@ public interface PotlatchSvcApi
     public static final String USER_SVC_PREFERENCE="/user/{"+ID+"}/setPreference";
 
     //Дабавление нового подарка
-    @POST(GIFT_SVC_PATH)
+    @POST(GIFT_SVC_PATH+RES_JSON)
     public Gift addGift(@Body Gift g);
 
     //Получение списка всех подарков
-    @GET(GIFT_SVC_PATH)
+    @GET(GIFT_SVC_PATH+RES_JSON)
     public List<Gift> getGiftList();
 
     //отменить отметку что подарок понравился
-    @POST(GIFT_SVC_LIKE_OR_UNLIKE)
+    @POST(GIFT_SVC_LIKE_OR_UNLIKE+RES_JSON)
     public Gift likeOrUnlike(@Path(ID)long id);
 
-    @POST(GIFT_SVC_OBSCENE_OR_DECENT)
+    @POST(GIFT_SVC_OBSCENE_OR_DECENT+RES_JSON)
     public Gift obsceneOrDecent(@Path(ID)long id);
 
     //получение подарка по ID
     //если подарок не найден возвращаем ошибку 404
-    @GET(GIFT_SVC_ID)
+    @GET(GIFT_SVC_ID+RES_JSON)
     public Gift getGiftById(@Path(ID)long id);
 
     //Прототип загрузки файла на сервер
     @Multipart
-    @POST(GIFT_SVC_UPLOAD)
+    @POST(GIFT_SVC_UPLOAD+RES_JSON)
     public String uploadFile(@Part(FILE) TypedFile photo,@Part(NAME_PARAM)String name);
 
     //Прототип получения файла на клиентское приложение
-    @GET(LOAD_IMAGE)
+    @GET(LOAD_IMAGE+RES_JSON)
     public Response loadImage(@Path(NAME_PARAM) String name);
 
     //поиск подарков по названию
-    @GET(GIFT_TITLE_SEARCH_PATH)
+    @GET(GIFT_TITLE_SEARCH_PATH+RES_JSON)
     public List<Gift> findByTitle(@Query(TITLE_PARAM) String title);
 
     //получение имени пользователя
-    @GET(USER_SVC_LOGIN)
+    @GET(USER_SVC_LOGIN+RES_JSON)
     public User getUser();
 
-    @GET(GIFT_CREATOR_PATH)
+    @GET(GIFT_CREATOR_PATH+RES_JSON)
     public List<Gift> findByCreator(@Path(ID) long id);
 
-    @GET(GIFT_NOT_CREATOR)
+    @GET(GIFT_NOT_CREATOR+RES_JSON)
     public List<Gift> findByCreatorNot(@Path(ID) long id);
 
-    @GET(GIFT_GETTING_PATH)
+    @GET(GIFT_GETTING_PATH+RES_JSON)
     public List<Gift> findByGetting(@Path(ID) long id);
 
-    @DELETE(GIFT_SVC_DEL)
+    @DELETE(GIFT_SVC_DEL+RES_JSON)
     public boolean delGift(@Path(ID)long id);
 
-    @DELETE(GIFT_SVC_DEL_RECIPIENTS)
+    @DELETE(GIFT_SVC_DEL_RECIPIENTS+RES_JSON)
     public boolean delRecipients(@Query(USER_ID_PARAM)long user_id,@Query(GIFT_ID_PARAM)long gift_id);
 
-    @POST(GIFT_SVC_SEND_RECIPIENTS)
+    @POST(GIFT_SVC_SEND_RECIPIENTS+RES_JSON)
     public Gift sendRecipients(@Path(ID)long id,@Path(USER_ID_PARAM)long u_id);
 
-    @POST(USER_SVC_PREFERENCE)
+    @POST(USER_SVC_PREFERENCE+RES_JSON)
     public User setPreference(@Path(ID)long id,@Query(USER_PREFER_PARAM)String preference);
 
     @FormUrlEncoded
