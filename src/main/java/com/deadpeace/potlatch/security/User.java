@@ -44,6 +44,11 @@ public class User implements UserDetails
         return authorities;
     }
 
+    public long getId()
+    {
+        return id;
+    }
+
     public String getPreference()
     {
         return preference;
