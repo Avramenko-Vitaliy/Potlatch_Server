@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.2.2.RELEASE'
+        springBootVersion = '1.2.3.RELEASE'
     }
     repositories {
         maven { url "http://repo.spring.io/libs-snapshot" }
@@ -17,8 +17,8 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 war {
@@ -44,9 +44,9 @@ dependencies {
 
     compile("mysql:mysql-connector-java:5.1.27")
 
-    compile("com.google.guava:guava:17.0")
-    compile("org.apache.httpcomponents:httpclient:4.3.4")
-    compile("com.squareup.retrofit:retrofit:1.6.0")
+    compile("com.google.guava:guava:18.0")
+    compile("org.apache.httpcomponents:httpclient:4.4.1")
+    compile("com.squareup.retrofit:retrofit:1.9.0")
     compile("commons-io:commons-io:2.4")
 
     testCompile("junit:junit")

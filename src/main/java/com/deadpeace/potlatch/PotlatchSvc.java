@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,7 +58,7 @@ public class PotlatchSvc
     public @ResponseBody Gift addGift(@RequestBody Gift g,Principal principal) throws IOException
     {
         g.setCreator(users.findByUsername(principal.getName()));
-        g.setDate(System.currentTimeMillis());
+        g.setDate(new Date(System.currentTimeMillis()));
         return gifts.save(g);
     }
 

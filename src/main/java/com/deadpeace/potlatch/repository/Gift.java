@@ -1,9 +1,14 @@
 package com.deadpeace.potlatch.repository;
 
 import com.deadpeace.potlatch.security.User;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,7 +20,8 @@ import java.util.List;
  */
 
 @Entity
-public class Gift
+@JsonAutoDetect
+public class Gift implements Serializable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,7 +30,9 @@ public class Gift
     private String title;
     private String description;
 
-    private long date;
+    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss'Z'")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss'Z'")
+    private Date date;
 
     @ManyToMany
     @JoinTable(name = "obscene")
@@ -112,12 +120,12 @@ public class Gift
         this.recipients=recipients;
     }
 
-    public long getDate()
+    public Date getDate()
     {
         return date;
     }
 
-    public void setDate(long date)
+    public void setDate(Date date)
     {
         this.date=date;
     }
