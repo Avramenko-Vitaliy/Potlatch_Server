@@ -1,7 +1,6 @@
 package com.deadpeace.potlatch.repository;
 
 import com.deadpeace.potlatch.security.User;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.Objects;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,7 +19,6 @@ import java.util.List;
  */
 
 @Entity
-@JsonAutoDetect
 public class Gift implements Serializable
 {
     @Id
